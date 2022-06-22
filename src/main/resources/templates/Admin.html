@@ -1,0 +1,31 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+</head>
+<body class="position-relative">
+<header th:replace="layout/layout :: header"></header>
+<div class="w-100" style="top: 56px;position: absolute;">
+    <div class="row relative mx-0">
+        <section class="bg-danger text-white col-2 fixed top-0 left-0 min-vh-100">
+
+            <ul class="list-unstyled p-4">
+                <li class="py-2"><a class="text-decoration-none text-white" th:href="@{/itemcurricular/guardar}">Registrar Pensum</a></li>
+                <li class="py-2"><a class="text-decoration-none text-white" th:href="@{/itemcurricular/listar}">Listar Pensum</a></li>
+            </ul>
+
+        </section>
+        <section class="col-10">
+            <img class="img-fluid mx-auto d-block" src="img/encabezado.jpg">
+        </section>
+    </div>
+</div>
+
+
+<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <title>Registro de Items Curriculares</title>
+</head>
+<body>
+
+<header th:replace="layout/layout :: header"></header>
+<div class="w-100" style="top: 56px;position: absolute;">
+    <div class="row relative mx-0">
+        <section class="bg-danger text-white col-2 fixed top-0 left-0 min-vh-100">
+            <ul class="list-unstyled p-4">
+                <li class="py-2"><a class="text-decoration-none text-white" th:href="@{/itemcurricular/guardar}">Registrar
+                    Pensum</a></li>
+                <li class="py-2"><a class="text-decoration-none text-white" th:href="@{/itemcurricular/listar}">Listar
+                    Pensum</a></li>
+            </ul>
+        </section>
+        <section class="col-10">
+            <img th:if="${guardar}" class="img-fluid mx-auto d-block" src="../img/encabezado.jpg">
+            <div class="col-md-6 offset-md-3">
+                <div th:if=${param.exito}>
+                    <div class="alert alert-info" role="alert">
+                        Se ha registrado exitosamente el item curricular
+                    </div>
+                </div>
+                <h1>
+                    <span th:if="${guardar}">Registrar Pensum</span>
+                    <span th:unless="${guardar}">Actualizar Pensum</span>
+                </h1>
+                <form  th:action="@{/itemcurricular/guardar}" method="post" th:object="${itemCurricular}">
+                    <div class="form-group">
+                        <label for="codigo">Codigo</label>
+                        <input type="text" class="form-control" id="codigo" th:field="*{codigo}"
+                               th:readonly="${guardar==false}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="enlaceFile">Enlace</label>
+                        <input type="file" class="form-control" id="enlaceFile" th:required="${guardar} ? 'required' : null">
+                        <input type="hidden" class="form-control" id="enlace" th:field="*{enlace}">
+                    </div>
+                    <div class="form-group">
+                        <label for="mallaFile">Malla</label>
+                        <input type="file" class="form-control" id="mallaFile">
+                        <input type="hidden" class="form-control" id="malla" th:field="*{malla}">
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo">Tipo</label>
+                        <input type="text" class="form-control" id="tipo" th:field="*{tipo}" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="estado">Estado</label>
+                        </div>
+                        <select class="custom-select" id="estado" th:field="*{estado}" required>
+                            <option selected value="Vigente">Vigente</option>
+                            <option value="Caducado">Caducado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">
+                            <span th:if="${guardar}">Registrar</span>
+                            <span th:unless="${guardar}">Actualizar</span>
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </section>
+    </div>
+</div>
+<footer th:replace="layout/layout :: footer"></footer>
+<script>
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+    $('#enlaceFile').change(async function(){
+        var input = this;
+        const uploadedFileEnlace = input.files[0];
+        const enlaceToBase64 = await toBase64(uploadedFileEnlace);
+        document.getElementById("enlace").value = enlaceToBase64;
+    });
+    $('#mallaFile').change(async function(){
+        var input = this;
+        const uploadedFileEnlace = input.files[0];
+        const enlaceToBase64 = await toBase64(uploadedFileEnlace);
+        document.getElementById("malla").value = enlaceToBase64;
+    });
+
+    $('#jsonConvert').click( async function() {
+		const uploadedFileEnlace = document.querySelector('#enlaceFile').files[0];
+        const enlaceToBase64 = await toBase64(uploadedFileEnlace);
+        document.getElementById("enlace").value = enlaceToBase64;
+
+        const uploadedFileMalla = document.querySelector('#mallaFile').files[0];
+        if (uploadedFileMalla !== undefined) {
+            const mallaToBase64 = await toBase64(uploadedFileMalla);
+            document.getElementById("malla").value = mallaToBase64;
+        } else {
+            document.getElementById("malla").value = "";
+        }
+
+	});
+
+</script>
+</body>
+</html>

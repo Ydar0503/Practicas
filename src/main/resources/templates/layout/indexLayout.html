@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://wwww.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header th:fragment="header">
+    <div>
+        <img class="ima2" src="img/encabezado.jpg">
+
+    </div>
+
+    <div class="principal">
+        <nav>
+            <ul class="menu">
+                <li><a th:href="@{/curriculo}">Ver Pensum </a></li>
+                <li><a th:href="@{/}">Ver Malla Curricular</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<footer th:fragment="footer" id="pie">
+    <p><a href="https://ww2.ufps.edu.co/oferta-academica/ingenieria-de-sistemas/138"> Practicas Ingenieria de Sistemas
+        2022 &copy; </a></p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
+    <title>Registro de Items Curriculares</title>
+</head>
+<body>
+
+<header th:replace="layout/layout :: header"></header>
+<div class="w-100" style="top: 56px;position: absolute;">
+    <div class="row relative mx-0">
+        <section class="bg-danger text-white col-2 fixed top-0 left-0 min-vh-100">
+            <ul class="list-unstyled p-4">
+                <li class="py-2"><a class="text-decoration-none text-white" th:href="@{/itemcurricular/guardar}">Registrar Pensum</a></li>
+                <li class="py-2"><a class="text-decoration-none text-white" th:href="@{/itemcurricular/listar}">Listar Pensum</a></li>
+            </ul>
+        </section>
+        <section class="col-10">
+            <img class="img-fluid mx-auto d-block" src="../img/encabezado.jpg">
+            <div class="col-md-6 offset-md-3">
+                <h1>Listado</h1>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">
+                                Codigo
+                            </th>
+                            <th scope="col">
+                                Enlace
+                            </th>
+                            <th scope="col">
+                                Estado
+                            </th>
+                            <th scope="col">
+                                Malla
+                            </th>
+                            <th scope="col">
+                                Tipo
+                            </th>
+                            <th scope="col">
+                                Accion
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item: ${items}">
+                            <td th:text="${item.codigo}"></td>
+                            <td><button th:if="${!item.getEnlace64.isEmpty()}" type="button" class="btn btn-link" th:attr="onclick=|actualizarPDF('${item.getEnlace64()}')|"><i class="bi bi-eye"></i></button></td>
+                            <td th:text="${item.estado}"></td>
+                            <td>
+                                <button th:if="${!item.getMalla64.isEmpty()}" type="button" class="btn btn-link" th:attr="onclick=|actualizarPDF('${item.getMalla64()}')|">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </td>
+                            <td th:text="${item.tipo}"></td>
+                            <td>
+                                <a class="hover:underline mr-2" th:href="@{'/itemcurricular/editar/'+${item.codigo}}"><i class="bi bi-pencil-square"></i></a>
+                                <a class="hover:underline" th:href="@{'/itemcurricular/eliminar/'+${item.codigo}}"><i class="bi bi-trash3-fill"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <iframe id="framePDF" class="mx-auto"
+                        src="https://play-lh.googleusercontent.com/9XKD5S7rwQ6FiPXSyp9SzLXfIue88ntf9sJ9K250IuHTL7pmn2-ZB0sngAX4A2Bw4w"
+                        style="width:100%; height:600px;" frameborder="0"></iframe>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+<footer th:replace="layout/layout :: footer"></footer>
+
+<script>
+  function actualizarPDF(enlace = "") {
+    var iframe = document.getElementById("framePDF");
+    iframe.setAttribute("src", enlace);
+    console.log(enlace);
+  }
+</script>
+
+</body>
+</html>
